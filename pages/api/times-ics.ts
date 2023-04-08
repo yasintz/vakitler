@@ -137,6 +137,6 @@ export default async function handler(req: NextRequest) {
     if (error instanceof Error) {
       return new Response(error.message, { status: 500 });
     }
-    return new Response("Something went wrong", { status: 500 });
+    return new Response("Something went wrong.", { status: 500 });
   }
 }
