@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { DateTime } from "luxon";
-import * as ics from "../../lib/ics";
+import * as ics from "ics";
 
 type EzanVaktiResponse = {
   Aksam: string;
@@ -87,10 +87,6 @@ function createEventsPromise(events: ics.EventAttributes[]) {
   });
 }
 
-export const config = {
-  runtime: "edge",
-};
-
 export default async function handler(req: NextRequest) {
   const params = req.nextUrl.searchParams;
   const cityID = params.get("cityID");
@@ -137,6 +133,6 @@ export default async function handler(req: NextRequest) {
     if (error instanceof Error) {
       return new Response(error.message, { status: 500 });
     }
-    return new Response("Something went wrong.", { status: 500 });
+    return new Response("Something went wrong", { status: 500 });
   }
 }
