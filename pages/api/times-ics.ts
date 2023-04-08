@@ -1,4 +1,4 @@
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { DateTime } from "luxon";
 import * as ics from "ics";
 
@@ -87,9 +87,8 @@ function createEventsPromise(events: ics.EventAttributes[]) {
   });
 }
 
-export default async function handler(req: NextRequest) {
-  const params = req.nextUrl.searchParams;
-  const cityID = params.get("cityID");
+export default async function handler(req: NextRequest, res: any) {
+  const cityID = (req as any).query.cityID;
 
   try {
     if (!cityID) {
@@ -123,12 +122,8 @@ export default async function handler(req: NextRequest) {
 
     const icsResponse = await createEventsPromise(events);
 
-    return new Response(icsResponse, {
-      status: 200,
-      headers: {
-        "Cache-Control": "s-maxage=172800", // 2 days
-      },
-    });
+    res.setHeader("Cache-Control", `s-maxage=${86400 * 10}`);
+    res.end(icsResponse);
   } catch (error) {
     if (error instanceof Error) {
       return new Response(error.message, { status: 500 });
