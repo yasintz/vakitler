@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { DateTime } from "luxon";
-import * as ics from "ics";
+import * as ics from "../../lib/ics";
 
 type EzanVaktiResponse = {
   Aksam: string;
